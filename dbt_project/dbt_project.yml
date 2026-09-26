@@ -1,0 +1,12 @@
+name: dagger_leader
+version: "1.0.0"
+config-version: 2
+profile: dagger_leader
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  dagger_leader:
+    +materialized: view
