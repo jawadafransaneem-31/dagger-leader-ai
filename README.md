@@ -1,507 +1,59 @@
-# dagger-leader-ai
-Multi-agent AI engine for governed data intelligence. Self-healing SQL, vector memory &amp; semantic layer. Powering QuantumCommander by Avendows.
-<div align="center">
-
-<br/>
-
-```
-██████╗  █████╗  ██████╗  ██████╗ ███████╗██████╗
-██╔══██╗██╔══██╗██╔════╝ ██╔════╝ ██╔════╝██╔══██╗
-██║  ██║███████║██║  ███╗██║  ███╗█████╗  ██████╔╝
-██║  ██║██╔══██║██║   ██║██║   ██║██╔══╝  ██╔══██╗
-██████╔╝██║  ██║╚██████╔╝╚██████╔╝███████╗██║  ██║
-╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝
-                    L E A D E R
-```
-
-<br/>
-
-**Multi-Agent Data Intelligence Engine**
-
-*Powering [QuantumCommander](https://avendows.us) · Built by [Avendows LLC](https://avendows.us)*
-
-<br/>
-
-[![Status](https://img.shields.io/badge/Status-In%20Development-F59E0B?style=flat-square)](https://github.com/avendows/dagger-leader)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![LangGraph](https://img.shields.io/badge/LangGraph-Powered-7C3AED?style=flat-square)](https://langchain-ai.github.io/langgraph/)
-[![License](https://img.shields.io/badge/License-MIT-10B981?style=flat-square)](LICENSE)
-[![Avendows](https://img.shields.io/badge/Avendows-LLC-0F172A?style=flat-square)](https://avendows.us)
-
-<br/>
-
-[Overview](#-overview) · [Architecture](#-architecture) · [Agents](#-agent-pipeline) · [Quickstart](#-quickstart) · [Usage](#-usage) · [Stack](#-tech-stack) · [Roadmap](#-roadmap) · [Contact](#-contact)
-
-<br/>
-
-</div>
-
----
-
- Overview
-
-**Dagger Leader** is the autonomous multi-agent orchestration engine behind **QuantumCommander** — Avendows LLC's enterprise data intelligence platform.
-
-It eliminates the traditional BI bottleneck. Instead of writing SQL or waiting on analysts, teams ask questions in plain English. Dagger Leader decomposes the question, discovers the right schemas, generates governed SQL, validates the result, **self-heals on failure**, and returns a clear, explainable answer — end to end, without human intervention.
-
-```
-"What was our revenue by region last quarter?"
-                    ↓
-        [ 8 Agents · ~2.4 seconds ]
-                    ↓
-  North America: $4.2M (+12%) · Europe: $2.8M (+8%) · ...
-```
-
-### Why Dagger Leader?
-
-| Problem | Traditional BI | Dagger Leader |
-|---|---|---|
-| Getting data answers | Wait for analyst | Instant, autonomous |
-| SQL errors | Manual debugging | Self-healing agent |
-| Schema discovery | Manual mapping | Automatic via ChromaDB |
-| Business term mapping | Hardcoded | Knowledge graph |
-| Explainability | Raw tables | Natural language summary |
-| Governance | Optional | Enforced by default |
-
----
-
-Architecture
-
-```
-┌─────────────────────────────────────────────────────┐
-│                   User Question                      │
-└─────────────────────┬───────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│           Orchestrator Agent (LangGraph)             │
-│         Plan · Decompose · Coordinate                │
-└──────┬──────────┬──────────┬──────────┬─────────────┘
-       │          │          │          │
-       ▼          ▼          ▼          ▼
-  ┌─────────┐ ┌────────┐ ┌───────┐ ┌──────────┐
-  │ Schema  │ │ Memory │ │  SQL  │ │ Semantic │
-  │  Agent  │ │  Agent │ │ Agent │ │  Agent   │
-  └────┬────┘ └───┬────┘ └───┬───┘ └─────┬────┘
-       │          │          │            │
-       ▼          │          ▼            ▼
-  ┌─────────┐     │    ┌──────────┐  ┌──────────────┐
-  │ChromaDB │◄────┘    │   SQL    │◄─│  Knowledge   │
-  │(Vector) │          │Generator │  │    Graph     │
-  └─────────┘          └────┬─────┘  └──────────────┘
-                            │
-                            ▼
-             ┌──────────────────────────┐
-             │       Data Sources       │
-             │  Snowflake · BigQuery    │
-             │  Kafka · dbt Models      │
-             └──────────┬───────────────┘
-                        │
-                        ▼
-                 ┌─────────────┐
-                 │  Validator  │
-                 └──────┬──────┘
-                        │
-              ┌─────────┴──────────┐
-            FAIL                 PASS
-              │                    │
-              ▼                    │
-       ┌────────────┐              │
-       │   Healer   │              │
-       │   Agent    │              │
-       └──────┬─────┘              │
-              └──────────┬─────────┘
-                         ▼
-                    ┌─────────┐
-                    │ Result  │
-                    └────┬────┘
-                         ▼
-                 ┌───────────────┐
-                 │   Explainer   │
-                 │     Agent     │
-                 └───────┬───────┘
-                         ▼
-              ┌─────────────────────┐
-              │  User Friendly      │
-              │  Response           │
-              └─────────────────────┘
-```
-
----
-
- Agent Pipeline
-
-| # | Agent | Role | Powered By |
-|---|---|---|---|
-| 1 | **Orchestrator** | Decomposes query into sub-tasks, coordinates all agents | LangGraph State Machine |
-| 2 | **Schema Agent** | Discovers relevant tables, columns, relationships | ChromaDB + SQL Introspection |
-| 3 | **Memory Agent** | Retrieves past query context & learned patterns | ChromaDB (Vector Similarity) |
-| 4 | **SQL Agent** | Generates optimized, safe SQL from natural language | Claude AI + Few-shot Prompting |
-| 5 | **Semantic Agent** | Resolves business terms → database columns | Neo4j Knowledge Graph |
-| 6 | **Validator** | Enforces governance: no DDL, fan-out checks, LIMIT | Rule Engine + LLM |
-| 7 | **Healer Agent** | Auto-diagnoses and fixes failed queries, retries | Claude AI + Retry Loop |
-| 8 | **Explainer** | Converts raw results to plain English summary | Claude AI |
-
----
-
-# Quickstart
-
-# Prerequisites
-
-```
-Python 3.10+
-Docker & Docker Compose
-Anthropic or OpenAI API Key
-Snowflake / BigQuery credentials
-```
-
-# 1. Clone & Install
-
-```bash
-git clone https://github.com/avendows/dagger-leader.git
-cd dagger-leader
-
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-```
-
-# 2. Configure Environment
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env`:
-
-```env
-# ── LLM ──────────────────────────────────────
-ANTHROPIC_API_KEY=your_key_here
-# OPENAI_API_KEY=your_key_here  (alternative)
-
-# ── Data Warehouse ────────────────────────────
-SNOWFLAKE_ACCOUNT=your_account
-SNOWFLAKE_USER=your_user
-SNOWFLAKE_PASSWORD=your_password
-SNOWFLAKE_WAREHOUSE=your_warehouse
-SNOWFLAKE_DATABASE=your_database
-
-# ── Vector DB (ChromaDB) ──────────────────────
-CHROMA_PERSIST_DIR=./chroma_db
-CHROMA_COLLECTION_NAME=schemas
-
-# ── Knowledge Graph (Neo4j) ───────────────────
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USER=neo4j
-NEO4J_PASSWORD=password
-
-# ── Streaming (Kafka) ─────────────────────────
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-KAFKA_TOPIC=realtime_data
-
-# ── dbt ──────────────────────────────────────
-DBT_PROJECT_DIR=./dbt_project
-```
-
-### 3. Start Services
-
-```bash
-# All at once
-docker-compose up -d
-
-# Or individually
-docker run -p 8000:8000 chromadb/chroma                 # ChromaDB
-docker run -p 7474:7474 -p 7687:7687 neo4j              # Neo4j
-docker-compose up -d kafka zookeeper                     # Kafka
-```
-
-# 4. Run
-
-```bash
-python main.py
-```
-
----
-
-# Usage
-
-### Python SDK
-
-```python
-from dagger_leader import QuantumAgent
-
-agent = QuantumAgent()
-
-result = agent.query(
-    "Show me top 5 customers by total order value in Q1 2025"
-)
-
-print(result.sql)            # Generated SQL
-print(result.data)           # Raw results
-print(result.explanation)    # Natural language summary
-print(result.agents_used)    # Which agents ran
-print(result.healed)         # True if self-healing was triggered
-```
-
-# REST API
-
-```bash
-curl -X POST http://localhost:8080/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What was our revenue by region last quarter?"}'
-```
-
-# Example Pipeline Execution
-
-```
-User: "Show me top 5 customers by total order value in Q1 2025"
-
- Orchestrator    Decomposing into 4 sub-tasks...
- Schema Agent   Found: customers, orders, dim_date in ChromaDB
- Memory Agent   Retrieved 2 similar past queries (similarity: 0.89)
- Semantic Agent Mapped "Q1 2025" → order_date BETWEEN '2025-01-01' AND '2025-03-31'
- SQL Agent      Generated query with 1 JOIN, GROUP BY, ORDER BY
-
-  Generated SQL:
-  ──────────────────────────────────────────────────────
-  SELECT c.customer_name, SUM(o.order_value) AS total_value
-  FROM customers c
-  JOIN orders o ON c.customer_id = o.customer_id
-  WHERE o.order_date BETWEEN '2025-01-01' AND '2025-03-31'
-  GROUP BY c.customer_name
-  ORDER BY total_value DESC
-  LIMIT 5;
-  ──────────────────────────────────────────────────────
-
- Validator      READ-ONLY · LIMIT injected · DDL-safe → PASS
- Explainer      Formatted as natural language response
-
-  Response:
-  "The top 5 customers by order value in Q1 2025 are:
-    1. Acme Corp      — $45,230
-    2. GlobalTech     — $38,900
-    3. NovaSystems    — $31,450
-    4. DataStream     — $28,700
-    5. CloudVenture   — $24,100"
-
-  ⏱  Total time: 2.4s
-```
-
----
-
-## 🔒 Governance & Security
-
-Dagger Leader enforces enterprise-grade data governance by default — not as an option.
-
-```
-✅  READ-ONLY queries enforced       (no INSERT / UPDATE / DELETE)
-✅  DDL commands blocked             (no DROP / CREATE / ALTER)
-✅  Auto-injected LIMIT              (max 1,000 rows per query)
-✅  Query timeout protection         (30s hard limit)
-✅  Full audit log                   (every agent action logged)
-✅  Role-based warehouse permissions (least-privilege by default)
-```
-
----
-
-## 🩹 Self-Healing Mechanism
-
-When a query fails, the Healer Agent takes over automatically:
-
-```
-Query Fails
-     │
-     ▼
-Healer analyzes error type
-     │
-     ├── Syntax Error      → Rewrites SQL with correction
-     ├── Missing Table     → Re-runs Schema Agent, regenerates
-     ├── Fan-out Detected  → Adds DISTINCT / GROUP BY fix
-     ├── Timeout           → Simplifies query, adds stricter LIMIT
-     └── Permission Error  → Escalates to user (cannot auto-fix)
-     │
-     ▼
-Retries up to 3 times
-     │
-     ├── Success → Returns to normal flow
-     └── Fail    → Returns clear error message to user
-```
-
-**Self-Healing Success Rate: 92%**
-
----
-
-## 📁 Project Structure
-
-```
-dagger-leader/
-├── agents/
-│   ├── orchestrator.py          # LangGraph state machine & coordinator
-│   ├── schema_agent.py          # Table & column discovery via ChromaDB
-│   ├── memory_agent.py          # Vector memory retrieval
-│   ├── sql_agent.py             # Natural language → SQL generation
-│   ├── semantic_agent.py        # Business term → DB column resolution
-│   ├── validator.py             # Governance & safety checks
-│   ├── healer_agent.py          # Self-healing & retry logic
-│   └── explainer_agent.py       # Result → natural language
-├── core/
-│   ├── langgraph_workflow.py    # Agent graph definition
-│   ├── sql_generator.py         # SQL templating & optimization
-│   └── data_connector.py        # Unified data source interface
-├── vector_db/
-│   └── chroma_client.py         # ChromaDB schema embeddings
-├── knowledge_graph/
-│   └── neo4j_client.py          # Semantic layer & entity relations
-├── data_sources/
-│   ├── snowflake_connector.py
-│   ├── bigquery_connector.py
-│   ├── kafka_consumer.py
-│   └── dbt_runner.py
-├── governance/
-│   └── sql_guard.py             # DDL block, LIMIT inject, audit log
-├── config/
-│   └── settings.py
-├── tests/
-├── main.py
-├── requirements.txt
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
-
----
-
-## 🛠 Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Agent Orchestration** | LangGraph + LangChain |
-| **LLM** | Claude (Anthropic) · GPT-4 (OpenAI) |
-| **Vector Memory** | ChromaDB |
-| **Knowledge Graph** | Neo4j |
-| **Backend API** | FastAPI + Python 3.10+ |
-| **Data Warehouses** | Snowflake · BigQuery |
-| **Real-time Streaming** | Apache Kafka |
-| **Data Modeling** | dbt-core |
-| **Containerization** | Docker + Docker Compose |
-| **Testing** | pytest |
-
----
-
-## 📊 Performance
-
-| Metric | Value |
-|---|---|
-| Avg Query Response Time | < 3 seconds |
-| Self-Healing Success Rate | 92% |
-| Schema Retrieval Accuracy | 98% |
-| SQL Generation Accuracy | 95% |
-
----
-
-## 📍 Roadmap
-
-**Phase 1 — Core Engine** *(current)*
-- [x] Multi-agent pipeline architecture
-- [x] LangGraph orchestration
-- [x] ChromaDB vector memory
-- [x] Self-healing query engine
-- [x] Governed SQL execution layer
-
-**Phase 2 — Connectors**
-- [ ] Snowflake connector
-- [ ] BigQuery connector
-- [ ] dbt model integration
-- [ ] Kafka real-time streaming
-
-**Phase 3 — Intelligence**
-- [ ] Neo4j knowledge graph semantic layer
-- [ ] Cross-query learning & memory optimization
-- [ ] Anomaly detection & proactive alerting
-
-**Phase 4 — Enterprise**
-- [ ] Next.js dashboard (QuantumCommander UI)
-- [ ] Multi-tenant support
-- [ ] SOC2 compliance layer
-- [ ] Role-based access control
-
----
-
-## 🧪 Testing
-
-```bash
-# All tests
-pytest tests/
-
-# Individual agent
-python -m pytest tests/test_sql_agent.py -v
-
-# End-to-end
-python tests/test_e2e.py
-
-# With coverage
-pytest tests/ --cov=agents --cov-report=html
-```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-```bash
-# 1. Fork the repository
-# 2. Create your feature branch
-git checkout -b feature/your-feature-name
-
-# 3. Commit your changes
-git commit -m "feat: add your feature"
-
-# 4. Push to branch
-git push origin feature/your-feature-name
-
-# 5. Open a Pull Request
-```
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting.
-
----
-
-## 📄 License
-
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
----
-
-## 📞 Contact
-
-<div align="center">
-
-**Avendows LLC**
-
-🌐 [avendows.us](https://avendows.us) · 📧 [info@avendows.us](mailto:info@avendows.us)
-
-🐙 [github.com/avendows](https://github.com/avendows) · 💼 [linkedin.com/company/avendows](https://linkedin.com/company/avendows)
-
-</div>
-
----
-
-## 🙏 Acknowledgments
-
-[LangGraph](https://langchain-ai.github.io/langgraph/) · [ChromaDB](https://www.trychroma.com/) · [Neo4j](https://neo4j.com/) · [Snowflake](https://snowflake.com/) · [Apache Kafka](https://kafka.apache.org/) · [dbt](https://www.getdbt.com/) · [Anthropic](https://anthropic.com/)
-
----
-
-<div align="center">
-
-<br/>
-
-⭐ **Star this repo if Dagger Leader is useful to you!**
-
-<br/>
-
-*Built with ❤️ by Avendows LLC · Intelligent Data Orchestration for the Modern Enterprise*
-
-</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" width="900" height="320" font-family="'Segoe UI',Helvetica,Arial,sans-serif" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYToxZjJmOTg2OS1lMGQzLTRlNjItYjMyZC02MjQyOGE1NGZlYWIAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaLkKS/DApAEG0302FPS6WjMAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkZDdhZjUzYy00NGYwLTQ1MTAtYjc1MS00YmJjNzBiOWQ0MTRscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoo/bsO13SxkLkpUiftfa71gAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggWSLv4kvtdYAae4mqe0sKPuxBijhEM113xawVuS5idPCkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaB8chx5Maph+RlaGb+LNrXYAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCByT2YW4H698I/5+I1m9kW4nIHRnrSPydx7pLd/Gl6LBmRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBjKZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjFmMmY5ODY5LWUwZDMtNGU2Mi1iMzJkLTYyNDI4YTU0ZmVhYi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjJmNzQ3ZDYwLTI3ZWEtNGI4Yi1iZmY3LTIwMjEzYmIxNzNhNnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBZIu/iS+11gBp7iap7Swo+7EGKOEQzXXfFrBW5LmJ08KJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggtsBG7TY+Ki3I1vrveSP39j/l8NsSdr1a8N9NryUPFcOiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggwiXXltyM7Z6UFOO1n0PkZ6aXg0n5iIyrqtaiHKyJ94J0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQGGkqw33vPdFaaVC3BzKwj5hCqbLm+NyIOv8xXjcXNlA8NNqRPkhUKQBK8vrkuDnQozu1KYpSYzmhLT4+QofyuM=</c2pa:manifest></metadata>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#070b18"/><stop offset="1" stop-color="#1b1245"/></linearGradient>
+<linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+<linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f3ff"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+<linearGradient id="ttl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#a5b4fc"/></linearGradient>
+<radialGradient id="floor" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.55"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+<filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="900" height="320" rx="18" fill="url(#bg)"/>
+<!-- perspective floor grid -->
+<g stroke="#6366f1" stroke-opacity="0.22" stroke-width="1">
+<line x1="0" y1="250" x2="900" y2="250"/><line x1="0" y1="266" x2="900" y2="266"/><line x1="0" y1="286" x2="900" y2="286"/><line x1="0" y1="312" x2="900" y2="312"/>
+<line x1="450" y1="236" x2="450" y2="320"/><line x1="330" y1="236" x2="170" y2="320"/><line x1="570" y1="236" x2="730" y2="320"/><line x1="210" y1="236" x2="-80" y2="320"/><line x1="690" y1="236" x2="980" y2="320"/>
+<line x1="90" y1="236" x2="-330" y2="320"/><line x1="810" y1="236" x2="1230" y2="320"/>
+</g>
+<ellipse cx="170" cy="248" rx="120" ry="20" fill="url(#floor)">
+<animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/></ellipse>
+<!-- 8 orbiting agents -->
+<g transform="rotate(-18 170 150)">
+<ellipse cx="170" cy="150" rx="140" ry="38" fill="none" stroke="#38bdf8" stroke-opacity="0.35" stroke-dasharray="3 6"/>
+<circle r="5.5" fill="#38bdf8" filter="url(#glow)"><animateMotion dur="9s" begin="-0.00s" repeatCount="indefinite" path="M 310,150 A 140 38 0 1 1 30,150 A 140 38 0 1 1 310,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="9s" begin="-0.00s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#38bdf8" filter="url(#glow)"><animateMotion dur="9s" begin="-2.25s" repeatCount="indefinite" path="M 310,150 A 140 38 0 1 1 30,150 A 140 38 0 1 1 310,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="9s" begin="-2.25s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#38bdf8" filter="url(#glow)"><animateMotion dur="9s" begin="-4.50s" repeatCount="indefinite" path="M 310,150 A 140 38 0 1 1 30,150 A 140 38 0 1 1 310,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="9s" begin="-4.50s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#38bdf8" filter="url(#glow)"><animateMotion dur="9s" begin="-6.75s" repeatCount="indefinite" path="M 310,150 A 140 38 0 1 1 30,150 A 140 38 0 1 1 310,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="9s" begin="-6.75s" repeatCount="indefinite"/></circle>
+</g>
+<g transform="rotate(24 170 150)">
+<ellipse cx="170" cy="150" rx="105" ry="28" fill="none" stroke="#f472b6" stroke-opacity="0.35" stroke-dasharray="3 6"/>
+<circle r="5.5" fill="#f472b6" filter="url(#glow)"><animateMotion dur="6s" begin="-0.00s" repeatCount="indefinite" path="M 275,150 A 105 28 0 1 1 65,150 A 105 28 0 1 1 275,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="6s" begin="-0.00s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#f472b6" filter="url(#glow)"><animateMotion dur="6s" begin="-1.50s" repeatCount="indefinite" path="M 275,150 A 105 28 0 1 1 65,150 A 105 28 0 1 1 275,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="6s" begin="-1.50s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#f472b6" filter="url(#glow)"><animateMotion dur="6s" begin="-3.00s" repeatCount="indefinite" path="M 275,150 A 105 28 0 1 1 65,150 A 105 28 0 1 1 275,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="6s" begin="-3.00s" repeatCount="indefinite"/></circle>
+<circle r="5.5" fill="#f472b6" filter="url(#glow)"><animateMotion dur="6s" begin="-4.50s" repeatCount="indefinite" path="M 275,150 A 105 28 0 1 1 65,150 A 105 28 0 1 1 275,150"/><animate attributeName="r" values="3.5;6.5;3.5" dur="6s" begin="-4.50s" repeatCount="indefinite"/></circle>
+</g>
+
+<!-- rotating 3D cube -->
+<g transform="translate(170 0)">
+<g>
+<animateTransform attributeName="transform" type="translate" values="0 0;0 -10;0 0" dur="4s" repeatCount="indefinite"/>
+<g>
+<animateTransform attributeName="transform" type="scale" values="1 1;0.02 1;-1 1;-0.02 1;1 1" keyTimes="0;0.25;0.5;0.75;1" dur="9s" repeatCount="indefinite"/>
+<polygon points="-61,115 0,150 0,220 -61,185" fill="#5b21b6"/>
+<polygon points="61,115 0,150 0,220 61,185" fill="url(#face)"/>
+<polygon points="0,80 61,115 0,150 -61,115" fill="url(#top)"/>
+<polygon points="0,80 61,115 61,185 0,220 -61,185 -61,115" fill="none" stroke="#ede9fe" stroke-opacity="0.7" stroke-width="1.5"/>
+<path d="M-61,115 L0,150 L61,115 M0,150 L0,220" stroke="#ede9fe" stroke-opacity="0.6" fill="none"/>
+</g></g></g>
+<!-- title with extrusion -->
+<text x="379" y="155" font-size="52" font-weight="800" letter-spacing="4" fill="#1c1766">DAGGER LEADER</text>
+<text x="378" y="154" font-size="52" font-weight="800" letter-spacing="4" fill="#251c74">DAGGER LEADER</text>
+<text x="377" y="153" font-size="52" font-weight="800" letter-spacing="4" fill="#2e2182">DAGGER LEADER</text>
+<text x="376" y="152" font-size="52" font-weight="800" letter-spacing="4" fill="#372690">DAGGER LEADER</text>
+<text x="375" y="151" font-size="52" font-weight="800" letter-spacing="4" fill="#402b9e">DAGGER LEADER</text>
+<text x="374" y="150" font-size="52" font-weight="800" letter-spacing="4" fill="#4930ac">DAGGER LEADER</text>
+<text x="373" y="149" font-size="52" font-weight="800" letter-spacing="4" fill="#5235ba">DAGGER LEADER</text>
+<text x="372" y="148" font-size="52" font-weight="800" letter-spacing="4" fill="url(#ttl)">DAGGER LEADER</text>
+<text x="374" y="188" font-size="19" font-weight="600" letter-spacing="3" fill="#a5b4fc">MULTI-AGENT DATA INTELLIGENCE ENGINE</text>
+<text x="374" y="218" font-size="14" fill="#8b9bd8">Self-healing SQL · Vector memory · Semantic layer</text>
+<rect x="374" y="232" width="0" height="3" rx="1.5" fill="#38bdf8"><animate attributeName="width" values="0;300;300;0" keyTimes="0;0.4;0.8;1" dur="6s" repeatCount="indefinite"/></rect>
+</svg>
