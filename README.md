@@ -18,7 +18,7 @@
 
 ---
 
-## 📖 Overview
+##  Overview
 
 **Dagger Leader** is the autonomous multi-agent orchestration engine behind **QuantumCommander** — Avendows' enterprise data intelligence platform.
 
@@ -45,7 +45,7 @@ It eliminates the traditional BI bottleneck. Instead of writing SQL or waiting o
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -109,7 +109,7 @@ It eliminates the traditional BI bottleneck. Instead of writing SQL or waiting o
 
 ---
 
-## 🤖 Agent Pipeline
+##  Agent Pipeline
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/jawadafransaneem-31/dagger-leader-ai/main/assets/dagger-leader-pipeline-3d.gif" alt="Dagger Leader — animated 3D agent pipeline" width="900"/>
@@ -128,7 +128,7 @@ It eliminates the traditional BI bottleneck. Instead of writing SQL or waiting o
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ### Prerequisites
 
@@ -208,7 +208,7 @@ python main.py
 
 ---
 
-## 💡 Usage
+## Usage
 
 ### Python SDK
 
@@ -274,7 +274,7 @@ User: "Show me top 5 customers by total order value in Q1 2025"
 
 ---
 
-## 🔒 Governance & Security
+##  Governance & Security
 
 Dagger Leader enforces enterprise-grade data governance by default — not as an option.
 
@@ -316,7 +316,7 @@ Retries up to 3 times
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 dagger-leader/
@@ -359,7 +359,7 @@ dagger-leader/
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer                   | Technology                          |
 | ----------------------- | ----------------------------------- |
@@ -376,7 +376,7 @@ dagger-leader/
 
 ---
 
-## 📊 Performance
+##  Performance
 
 | Metric                    | Value       |
 | ------------------------- | ----------- |
@@ -387,7 +387,7 @@ dagger-leader/
 
 ---
 
-## 📍 Roadmap
+##  Roadmap
 
 **Phase 1 — Core Engine** *(current)*
 
