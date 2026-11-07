@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/dagger-leader-3d.svg" alt="Dagger Leader — animated 3D banner" width="900"/>
+<img src="https://raw.githubusercontent.com/jawadafransaneem-31/dagger-leader-ai/main/assets/dagger-leader-3d.gif" alt="Dagger Leader — animated 3D banner" width="900"/>
 
 **Multi-Agent Data Intelligence Engine**
 
@@ -110,6 +110,10 @@ It eliminates the traditional BI bottleneck. Instead of writing SQL or waiting o
 ---
 
 ## 🤖 Agent Pipeline
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/jawadafransaneem-31/dagger-leader-ai/main/assets/dagger-leader-pipeline-3d.gif" alt="Dagger Leader — animated 3D agent pipeline" width="900"/>
+</div>
 
 | # | Agent              | Role                                                    | Powered By                     |
 | - | ------------------ | ------------------------------------------------------- | ------------------------------ |
@@ -343,7 +347,8 @@ dagger-leader/
 ├── config/
 │   └── settings.py
 ├── assets/
-│   └── dagger-leader-3d.svg     # Animated 3D banner
+│   ├── dagger-leader-3d.gif           # Animated 3D banner
+│   └── dagger-leader-pipeline-3d.gif  # Animated 3D agent pipeline
 ├── tests/
 ├── main.py
 ├── requirements.txt
@@ -460,17 +465,17 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 📞 Contact
+##  Contact
 
 **Avendows**
 
 📧 [avendows.ai@gmail.com](mailto:avendows.ai@gmail.com)
 
-🐙 [github.com/avendows](https://github.com/avendows) · 💼 [linkedin.com/company/avendows](https://linkedin.com/company/avendows)
+[github.com/avendows](https://github.com/avendows) · 💼 [linkedin.com/company/avendows](https://linkedin.com/company/avendows)
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 [LangGraph](https://langchain-ai.github.io/langgraph/) · [ChromaDB](https://www.trychroma.com/) · [Neo4j](https://neo4j.com/) · [Snowflake](https://snowflake.com/) · [Apache Kafka](https://kafka.apache.org/) · [dbt](https://www.getdbt.com/) · [Anthropic](https://anthropic.com/)
 
